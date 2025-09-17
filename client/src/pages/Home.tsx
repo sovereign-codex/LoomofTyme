@@ -1,5 +1,4 @@
 import { useState } from "react";
-import ArchiveHeader from "@/components/ArchiveHeader";
 import ScrollSidebar from "@/components/ScrollSidebar";
 import CentralParchment from "@/components/CentralParchment";
 import { ScrollData } from "@/components/ScrollCard";
@@ -77,52 +76,35 @@ const mockTechnicalScrolls: ScrollData[] = [
 
 export default function Home() {
   const [activeScroll, setActiveScroll] = useState<ScrollData | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="h-screen flex flex-col bg-background">
-      <ArchiveHeader 
-        showMenuButton={true}
-        onMenuToggle={() => setMobileMenuOpen(!mobileMenuOpen)}
-      />
-      
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar - Mystical Scrolls */}
-        <div className={`w-80 border-r border-border flex-shrink-0 ${mobileMenuOpen ? 'block' : 'hidden lg:block'}`}>
-          <ScrollSidebar
-            title="Mystical Scrolls"
-            scrolls={mockMysticalScrolls}
-            activeScrollId={activeScroll?.id}
-            onScrollSelect={setActiveScroll}
-            category="mystical"
-          />
-        </div>
-        
-        {/* Central Parchment */}
-        <div className="flex-1 p-6">
-          <CentralParchment activeScroll={activeScroll} />
-        </div>
-        
-        {/* Right Sidebar - Technical Scrolls */}
-        <div className={`w-80 border-l border-border flex-shrink-0 ${mobileMenuOpen ? 'block' : 'hidden lg:block'}`}>
-          <ScrollSidebar
-            title="Technical Scrolls"
-            scrolls={mockTechnicalScrolls}
-            activeScrollId={activeScroll?.id}
-            onScrollSelect={setActiveScroll}
-            category="technical"
-          />
-        </div>
+    <div className="h-full flex gap-6 p-6">
+      {/* Left Sidebar - Mystical Scrolls */}
+      <div className="w-80 flex-shrink-0">
+        <ScrollSidebar
+          title="Mystical Scrolls"
+          scrolls={mockMysticalScrolls}
+          activeScrollId={activeScroll?.id}
+          onScrollSelect={setActiveScroll}
+          category="mystical"
+        />
       </div>
       
-      {/* Mobile overlay */}
-      {mobileMenuOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-background/80 backdrop-blur-sm z-40"
-          onClick={() => setMobileMenuOpen(false)}
-          data-testid="mobile-overlay"
+      {/* Central Parchment */}
+      <div className="flex-1">
+        <CentralParchment activeScroll={activeScroll} />
+      </div>
+      
+      {/* Right Sidebar - Technical Scrolls */}
+      <div className="w-80 flex-shrink-0">
+        <ScrollSidebar
+          title="Technical Scrolls"
+          scrolls={mockTechnicalScrolls}
+          activeScrollId={activeScroll?.id}
+          onScrollSelect={setActiveScroll}
+          category="technical"
         />
-      )}
+      </div>
     </div>
   );
 }
