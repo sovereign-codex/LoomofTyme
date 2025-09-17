@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ThemeToggle from "./ThemeToggle";
+import TriadicDiagram from "./TriadicDiagram";
 import { Sparkles, Scroll, Beaker, Star, Settings, Info } from "lucide-react";
 import { Link, useLocation } from "wouter";
 
@@ -60,6 +61,11 @@ export default function LatticeNavigation() {
                   Triadic Lattice Node
                 </p>
               </div>
+            </div>
+
+            {/* Triadic Diagram */}
+            <div className="flex items-center">
+              <TriadicDiagram size="sm" className="opacity-70 hover:opacity-100 transition-opacity" />
             </div>
 
             {/* Chamber Navigation */}
