@@ -60,58 +60,73 @@ export default function TriadicDiagram({ className = "", size = "sm" }: TriadicD
       />
 
       {/* Scrolls node */}
-      <circle 
-        cx="150" cy="40" r="35" 
-        fill={activeNode === "scrolls" ? "hsl(var(--primary))" : "hsl(var(--card))"}
-        stroke={activeNode === "scrolls" ? "hsl(var(--primary-foreground))" : "hsl(var(--card-border))"}
-        strokeWidth="3"
-        className="transition-all duration-300"
-      />
-      <text 
-        x="150" y="45" 
-        fontSize="10" 
-        textAnchor="middle" 
-        fill={activeNode === "scrolls" ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))"}
-        className="transition-colors duration-300 font-serif"
+      <g 
+        className="cursor-pointer transition-all duration-300 hover:scale-105"
+        onClick={() => window.location.href = "/"}
       >
-        Scrolls
-      </text>
+        <circle 
+          cx="150" cy="40" r="35" 
+          fill={activeNode === "scrolls" ? "hsl(var(--primary))" : "hsl(var(--card))"}
+          stroke={activeNode === "scrolls" ? "hsl(var(--primary-foreground))" : "hsl(var(--card-border))"}
+          strokeWidth="3"
+          className="transition-all duration-300"
+        />
+        <text 
+          x="150" y="45" 
+          fontSize="10" 
+          textAnchor="middle" 
+          fill={activeNode === "scrolls" ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))"}
+          className="transition-colors duration-300 font-serif pointer-events-none"
+        >
+          Scrolls
+        </text>
+      </g>
       
       {/* Laboratory node */}
-      <circle 
-        cx="60" cy="200" r="35" 
-        fill={activeNode === "laboratory" ? "hsl(var(--primary))" : "hsl(var(--card))"}
-        stroke={activeNode === "laboratory" ? "hsl(var(--primary-foreground))" : "hsl(var(--card-border))"}
-        strokeWidth="3"
-        className="transition-all duration-300"
-      />
-      <text 
-        x="60" y="205" 
-        fontSize="10" 
-        textAnchor="middle" 
-        fill={activeNode === "laboratory" ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))"}
-        className="transition-colors duration-300 font-serif"
+      <g 
+        className="cursor-pointer transition-all duration-300 hover:scale-105"
+        onClick={() => window.location.href = "/laboratory"}
       >
-        Laboratory
-      </text>
+        <circle 
+          cx="60" cy="200" r="35" 
+          fill={activeNode === "laboratory" ? "hsl(var(--primary))" : "hsl(var(--card))"}
+          stroke={activeNode === "laboratory" ? "hsl(var(--primary-foreground))" : "hsl(var(--card-border))"}
+          strokeWidth="3"
+          className="transition-all duration-300"
+        />
+        <text 
+          x="60" y="205" 
+          fontSize="10" 
+          textAnchor="middle" 
+          fill={activeNode === "laboratory" ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))"}
+          className="transition-colors duration-300 font-serif pointer-events-none"
+        >
+          Laboratory
+        </text>
+      </g>
       
       {/* Constellation node */}
-      <circle 
-        cx="240" cy="200" r="35" 
-        fill={activeNode === "constellation" ? "hsl(var(--primary))" : "hsl(var(--card))"}
-        stroke={activeNode === "constellation" ? "hsl(var(--primary-foreground))" : "hsl(var(--card-border))"}
-        strokeWidth="3"
-        className="transition-all duration-300"
-      />
-      <text 
-        x="240" y="205" 
-        fontSize="10" 
-        textAnchor="middle" 
-        fill={activeNode === "constellation" ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))"}
-        className="transition-colors duration-300 font-serif"
+      <g 
+        className="cursor-pointer transition-all duration-300 hover:scale-105"
+        onClick={() => window.location.href = "/constellation"}
       >
-        Constellation
-      </text>
+        <circle 
+          cx="240" cy="200" r="35" 
+          fill={activeNode === "constellation" ? "hsl(var(--primary))" : "hsl(var(--card))"}
+          stroke={activeNode === "constellation" ? "hsl(var(--primary-foreground))" : "hsl(var(--card-border))"}
+          strokeWidth="3"
+          className="transition-all duration-300"
+        />
+        <text 
+          x="240" y="205" 
+          fontSize="10" 
+          textAnchor="middle" 
+          fill={activeNode === "constellation" ? "hsl(var(--primary-foreground))" : "hsl(var(--muted-foreground))"}
+          className="transition-colors duration-300 font-serif pointer-events-none"
+        >
+          Constellation
+        </text>
+      </g>
 
       {/* Sacred geometry glyphs */}
       {activeNode === "scrolls" && (
