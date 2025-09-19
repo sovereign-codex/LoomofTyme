@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Scroll, Edit, Sparkles, Download, Upload } from "lucide-react";
-import { apiRequest } from "@/lib/queryClient";
+import { Scroll, Edit, Sparkles, Download, Upload, BookOpen } from "lucide-react";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useMutation } from "@tanstack/react-query";
+import ScrollLibrary from "./ScrollLibrary";
+import { Scroll as ScrollType } from "@shared/schema";
 
 export default function ScrollEditAgent() {
   const [originalContent, setOriginalContent] = useState("");
@@ -14,6 +17,8 @@ export default function ScrollEditAgent() {
   const [scrollTitle, setScrollTitle] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editHistory, setEditHistory] = useState<Array<{prompt: string, timestamp: string}>>([]);
+  const [showLibrary, setShowLibrary] = useState(false);
+  const [selectedScroll, setSelectedScroll] = useState<ScrollType | null>(null);
 
   const handleEdit = async () => {
     if (!originalContent.trim() || !editPrompt.trim()) return;
@@ -54,8 +59,89 @@ export default function ScrollEditAgent() {
     setEditPrompt("");
   };
 
+  const handleSelectScroll = (scroll: ScrollType) => {
+    setSelectedScroll(scroll);
+    setScrollTitle(scroll.title);
+    setOriginalContent(scroll.content);
+    setEditedContent("");
+    setEditPrompt("");
+    setShowLibrary(false);
+  };
+
+  const handleLoadFromLibrary = () => {
+    setShowLibrary(true);
+  };
+
+  const saveScrollMutation = useMutation({
+    mutationFn: async (scrollData: any) => {
+      return await apiRequest("/api/scrolls", {
+        method: "POST",
+        body: JSON.stringify(scrollData),
+      });
+    },
+    onSuccess: () => {
+      console.log("Scroll saved to library successfully");
+      // Invalidate scroll queries to refresh library
+      queryClient.invalidateQueries({ queryKey: ['/api/scrolls'] });
+    },
+    onError: (error) => {
+      console.error("Failed to save scroll to library:", error);
+    }
+  });
+
+  const handleSaveToLibrary = () => {
+    if (!scrollTitle.trim() || !originalContent.trim()) {
+      console.log("Missing title or content for saving");
+      return;
+    }
+
+    const scrollData = {
+      title: scrollTitle,
+      content: originalContent,
+      category: "mystical",
+      tags: [],
+      glyphs: [],
+      source: "user_created"
+    };
+
+    saveScrollMutation.mutate(scrollData);
+  };
+
   const canTransform = originalContent.trim() && editPrompt.trim() && !isEditing;
   const hasEditedContent = editedContent.trim().length > 0;
+
+  if (showLibrary) {
+    return (
+      <div className="h-full flex flex-col gap-4">
+        <Card className="bg-card/80 backdrop-blur-sm border-card-border flex-shrink-0">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="font-serif text-xl text-foreground flex items-center gap-3">
+                <div className="p-2 bg-accent/20 rounded-md">
+                  <BookOpen className="w-5 h-5 text-accent-foreground" />
+                </div>
+                Browse Scroll Library
+              </CardTitle>
+              <Button
+                variant="outline"
+                onClick={() => setShowLibrary(false)}
+                data-testid="button-close-library"
+              >
+                Back to Editor
+              </Button>
+            </div>
+          </CardHeader>
+        </Card>
+
+        <div className="flex-1 min-h-0">
+          <ScrollLibrary
+            onSelectScroll={handleSelectScroll}
+            selectedScrollId={selectedScroll?.id}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-full flex flex-col gap-4 overflow-hidden lg:overflow-visible">
@@ -86,13 +172,26 @@ export default function ScrollEditAgent() {
               />
             </div>
             <div className="flex gap-2 sm:flex-shrink-0">
-              <Button size="sm" variant="outline" data-testid="button-load-scroll" className="flex-1 sm:flex-initial">
-                <Upload className="w-4 h-4 mr-2" />
-                Load
+              <Button 
+                size="sm" 
+                variant="outline" 
+                onClick={handleLoadFromLibrary}
+                data-testid="button-load-scroll" 
+                className="flex-1 sm:flex-initial"
+              >
+                <BookOpen className="w-4 h-4 mr-2" />
+                Library
               </Button>
-              <Button size="sm" variant="outline" data-testid="button-save-scroll" className="flex-1 sm:flex-initial">
+              <Button 
+                size="sm" 
+                variant="outline"
+                onClick={handleSaveToLibrary}
+                disabled={!scrollTitle.trim() || !originalContent.trim() || saveScrollMutation.isPending}
+                data-testid="button-save-scroll" 
+                className="flex-1 sm:flex-initial"
+              >
                 <Download className="w-4 h-4 mr-2" />
-                Save
+                {saveScrollMutation.isPending ? "Saving..." : "Save"}
               </Button>
             </div>
           </div>

@@ -2,8 +2,96 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { generateScrollWisdom, analyzeScrollResonance, interpretGlyph, editScrollContent } from "./openai";
+import { insertScrollSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Scroll Library Management Routes
+  
+  // Get all scrolls
+  app.get("/api/scrolls", async (req, res) => {
+    try {
+      const { category, search } = req.query;
+      let scrolls;
+      
+      if (search) {
+        scrolls = await storage.searchScrolls(search as string);
+      } else if (category) {
+        scrolls = await storage.getScrollsByCategory(category as string);
+      } else {
+        scrolls = await storage.getAllScrolls();
+      }
+      
+      res.json({ scrolls });
+    } catch (error) {
+      console.error("Error fetching scrolls:", error);
+      res.status(500).json({ error: "Failed to fetch scrolls" });
+    }
+  });
+
+  // Get single scroll
+  app.get("/api/scrolls/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const scroll = await storage.getScroll(id);
+      
+      if (!scroll) {
+        return res.status(404).json({ error: "Scroll not found" });
+      }
+      
+      res.json({ scroll });
+    } catch (error) {
+      console.error("Error fetching scroll:", error);
+      res.status(500).json({ error: "Failed to fetch scroll" });
+    }
+  });
+
+  // Create new scroll
+  app.post("/api/scrolls", async (req, res) => {
+    try {
+      const scrollData = insertScrollSchema.parse(req.body);
+      const scroll = await storage.createScroll(scrollData);
+      res.status(201).json({ scroll });
+    } catch (error) {
+      console.error("Error creating scroll:", error);
+      res.status(500).json({ error: "Failed to create scroll" });
+    }
+  });
+
+  // Update scroll
+  app.put("/api/scrolls/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updateData = insertScrollSchema.partial().parse(req.body);
+      const scroll = await storage.updateScroll(id, updateData);
+      
+      if (!scroll) {
+        return res.status(404).json({ error: "Scroll not found" });
+      }
+      
+      res.json({ scroll });
+    } catch (error) {
+      console.error("Error updating scroll:", error);
+      res.status(500).json({ error: "Failed to update scroll" });
+    }
+  });
+
+  // Delete scroll
+  app.delete("/api/scrolls/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleted = await storage.deleteScroll(id);
+      
+      if (!deleted) {
+        return res.status(404).json({ error: "Scroll not found" });
+      }
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting scroll:", error);
+      res.status(500).json({ error: "Failed to delete scroll" });
+    }
+  });
+
   // OpenAI Integration Routes for Sovereign Intelligence Lattice
   
   // Generate mystical scroll content
