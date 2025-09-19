@@ -30,10 +30,10 @@ export default function ScrollSidebar({
   );
 
   return (
-    <Card className="h-full bg-card/60 backdrop-blur-sm border-card-border flex flex-col">
-      <CardHeader className="border-b border-card-border/50 pb-4">
+    <Card className="h-full bg-card/60 backdrop-blur-sm border-card-border flex flex-col md:h-full mobile-drawer">
+      <CardHeader className="border-b border-card-border/50 md:pb-4 pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
+          <CardTitle className="font-serif md:text-lg text-base text-foreground flex items-center gap-2">
             {title}
             <Badge variant="outline" className="text-xs">
               {scrolls.length}
@@ -88,8 +88,8 @@ export default function ScrollSidebar({
         )}
       </CardHeader>
       
-      <CardContent className="flex-1 overflow-y-auto p-4">
-        <div className="space-y-3">
+      <CardContent className="flex-1 overflow-y-auto md:p-4 p-3">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-3 md:space-y-0 space-y-0">
           {filteredScrolls.length > 0 ? (
             filteredScrolls.map((scroll) => (
               <ScrollCard

@@ -60,10 +60,10 @@ export function SoulGlyph({
       "aria-label": glyphInfo.label,
       "data-testid": glyphInfo.testId,
       className: cn(
-        "transition-all duration-300",
-        interactive && "cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-        isHovered && "scale-105",
-        isActive && "scale-110",
+        "transition-all duration-300 mobile-glyph w-auto h-auto",
+        interactive && "cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active-elevate-2",
+        isHovered && "md:scale-105 scale-[1.02]",
+        isActive && "md:scale-110 scale-[1.08]",
         className
       ),
       onMouseEnter: () => setIsHovered(true),

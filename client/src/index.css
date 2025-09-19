@@ -272,3 +272,45 @@
     inset: -1px;
   }
 }
+
+/* Mobile Harmonics - Touch Realm Optimizations */
+@media (max-width: 768px) {
+  /* Ensure mobile viewport and scrolling works properly - DON'T override font-size */
+  html, body {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  /* Mobile spacing adjustments */
+  :root {
+    --spacing: 0.375rem; /* Increased for better touch targets */
+  }
+  
+  /* Mobile-specific elevation - prioritize tap over hover */
+  .hover-elevate:active:not(.no-default-active-elevate)::after {
+    background-color: var(--elevate-2);
+  }
+  
+  /* Touch-friendly interactive elements */
+  [role="button"], button, .cursor-pointer {
+    min-height: 44px; /* iOS touch target minimum */
+    min-width: 44px;
+  }
+  
+  /* Force mobile responsive glyph scaling */
+  .mobile-glyph {
+    width: clamp(20px, 4vw, 32px) !important;
+    height: clamp(20px, 4vw, 32px) !important;
+  }
+  
+  /* Ensure touch scrolling works */
+  .overflow-y-auto, .mobile-drawer, .mobile-parchment {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+  }
+  
+  /* Debug helper - add border to mobile elements for testing */
+  .mobile-debug {
+    border: 2px solid red !important;
+  }
+}

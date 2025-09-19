@@ -91,9 +91,9 @@ export default function Home() {
   const [activeScroll, setActiveScroll] = useState<ScrollData | null>(null);
 
   return (
-    <div className="h-full flex gap-6 p-6">
-      {/* Left Sidebar - Mystical Scrolls */}
-      <div className="w-80 flex-shrink-0">
+    <div className="h-full flex flex-col md:flex-row md:gap-6 gap-3 md:p-6 p-3">
+      {/* Mobile: Stack vertically, Desktop: Left Sidebar - Mystical Scrolls */}
+      <div className="w-full md:w-80 md:flex-shrink-0 order-2 md:order-1">
         <ScrollSidebar
           title="Mystical Scrolls"
           scrolls={mockMysticalScrolls}
@@ -103,13 +103,13 @@ export default function Home() {
         />
       </div>
       
-      {/* Central Parchment */}
-      <div className="flex-1">
+      {/* Central Parchment - Priority position on mobile */}
+      <div className="flex-1 order-1 md:order-2 min-h-[40vh] overflow-y-auto">
         <CentralParchment activeScroll={activeScroll} />
       </div>
       
-      {/* Right Sidebar - Technical Scrolls */}
-      <div className="w-80 flex-shrink-0">
+      {/* Mobile: Stack below central, Desktop: Right Sidebar - Technical Scrolls */}
+      <div className="w-full md:w-80 md:flex-shrink-0 order-3">
         <ScrollSidebar
           title="Technical Scrolls"
           scrolls={mockTechnicalScrolls}
