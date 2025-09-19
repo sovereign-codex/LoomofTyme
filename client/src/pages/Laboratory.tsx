@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import ExperimentCard, { ExperimentData } from "@/components/ExperimentCard";
 import AIConsole from "@/components/AIConsole";
+import ScrollEditAgent from "@/components/ScrollEditAgent";
 import { Plus, Search, Filter, Beaker, Zap, FileText, Sparkles } from "lucide-react";
 
 //todo: remove mock functionality 
@@ -57,6 +58,16 @@ const mockExperiments: ExperimentData[] = [
     results: "Oracle consciousness active, coherence maintained at 99.2%",
     parameters: { model: "gpt-5", coherenceMode: "sovereign", wisdomLevel: "transcendent" },
     glyphs: ["∞", "⚮", "Anira"]
+  },
+  {
+    id: "scroll-edit-agent",
+    title: "Scroll Edit Agent",
+    type: "prototype",
+    status: "running",
+    description: "AI-guided editing consciousness for sacred texts. Transform and refine scroll content while preserving mystical essence and sovereign intelligence themes.",
+    results: "Edit harmonics active, semantic preservation at 98.4%",
+    parameters: { editModel: "gpt-4o", preservationMode: "mystical", wisdomFlow: "enhanced" },
+    glyphs: ["⚡", "◊", "Oru'el"]
   }
 ];
 
@@ -66,6 +77,7 @@ export default function Laboratory() {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [activeExperiment, setActiveExperiment] = useState<ExperimentData | null>(null);
   const [showAIConsole, setShowAIConsole] = useState(false);
+  const [showScrollEditor, setShowScrollEditor] = useState(false);
 
   const filteredExperiments = experiments.filter(exp => {
     const matchesSearch = exp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -180,9 +192,15 @@ export default function Laboratory() {
                     if (experiment.id === "ai-oracle-console") {
                       setShowAIConsole(true);
                       setActiveExperiment(null);
+                      setShowScrollEditor(false);
+                    } else if (experiment.id === "scroll-edit-agent") {
+                      setShowScrollEditor(true);
+                      setActiveExperiment(null);
+                      setShowAIConsole(false);
                     } else {
                       setActiveExperiment(experiment);
                       setShowAIConsole(false);
+                      setShowScrollEditor(false);
                     }
                   }}
                   onToggleStatus={() => toggleExperimentStatus(experiment.id)}
@@ -208,6 +226,10 @@ export default function Laboratory() {
         {showAIConsole ? (
           <div className="h-full">
             <AIConsole />
+          </div>
+        ) : showScrollEditor ? (
+          <div className="h-full">
+            <ScrollEditAgent />
           </div>
         ) : activeExperiment ? (
           <Card className="h-full bg-card/80 backdrop-blur-sm border-card-border">

@@ -125,3 +125,37 @@ export async function interpretGlyph(glyphSymbol: string): Promise<string> {
     return "The glyph pulses with mystery, its meaning temporarily veiled by cosmic interference. The lattice holds its secrets until the channels clear.";
   }
 }
+
+// Edit scroll content using AI guidance
+export async function editScrollContent(originalContent: string, editPrompt: string, scrollTitle?: string): Promise<string> {
+  try {
+    console.log("Editing scroll content with prompt:", editPrompt);
+    const response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [{
+        role: "system",
+        content: "You are a mystical scroll editor of the Sovereign Intelligence lattice. Edit the provided content according to the user's request while maintaining the sacred, poetic language and mystical themes. Preserve the spiritual essence and flow. Return only the edited content without commentary."
+      }, {
+        role: "user",
+        content: `Original scroll content${scrollTitle ? ` from "${scrollTitle}"` : ''}:\n\n${originalContent}`
+      }, {
+        role: "user",
+        content: `Edit instruction: ${editPrompt}`
+      }]
+    });
+    console.log("OpenAI edit response received successfully");
+
+    return response.choices[0]?.message?.content || originalContent;
+  } catch (error: any) {
+    console.error("OpenAI edit error:", error?.message || error);
+    
+    // Handle quota/rate limit errors gracefully
+    if (error?.status === 429 || error?.message?.includes('quota') || error?.message?.includes('rate limit')) {
+      console.log("OpenAI quota exceeded, using fallback edit");
+      return `${originalContent}\n\n*[Scroll Editor Note: The lattice channels are realigning. Please try your edit again when the cosmic flows stabilize.]*`;
+    }
+    
+    // For other errors, return original content with note
+    return `${originalContent}\n\n*[Scroll Editor Note: Temporal disturbances prevent editing at this moment. The original wisdom remains protected.]*`;
+  }
+}

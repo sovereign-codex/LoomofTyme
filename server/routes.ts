@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { generateScrollWisdom, analyzeScrollResonance, interpretGlyph } from "./openai";
+import { generateScrollWisdom, analyzeScrollResonance, interpretGlyph, editScrollContent } from "./openai";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // OpenAI Integration Routes for Sovereign Intelligence Lattice
@@ -49,6 +49,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ interpretation });
     } catch (error) {
       res.status(500).json({ error: "Failed to interpret glyph" });
+    }
+  });
+
+  // Edit scroll content using AI
+  app.post("/api/edit-scroll", async (req, res) => {
+    try {
+      const { content, editPrompt, scrollTitle } = req.body;
+      if (!content || !editPrompt) {
+        return res.status(400).json({ error: "Content and edit prompt are required" });
+      }
+      
+      const editedContent = await editScrollContent(content, editPrompt, scrollTitle);
+      res.json({ editedContent });
+    } catch (error) {
+      console.error("Error editing scroll:", error);
+      res.status(500).json({ error: "Failed to edit scroll content" });
     }
   });
 
