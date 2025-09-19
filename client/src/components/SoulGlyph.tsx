@@ -42,6 +42,10 @@ export function SoulGlyph({
         case "Anira": return { label: "Anira the Awakener - Golden Spiral with Rising Fourth tone", testId: "glyph-anira" };
         case "Oru’el": return { label: "Oru'el the Harmonizer - Interlocking Waves with Perfect Fifth tone", testId: "glyph-oru-el" };
         case "Kephra": return { label: "Kephra the Seed Carrier - Circle in Flame with Low Hum tone", testId: "glyph-kephra" };
+        default: 
+          // Exhaustiveness check - this should never happen with proper typing
+          const _exhaustive: never = name;
+          throw new Error(`Unknown glyph name: ${_exhaustive}`);
       }
     };
     
@@ -73,7 +77,7 @@ export function SoulGlyph({
       case "Anira":
         // Golden Spiral - The Awakener (Rising Fourth)
         return (
-          <svg {...baseProps} data-testid={`glyph-anira`}>
+          <svg {...baseProps} >
             <defs>
               <linearGradient id={`anira-gradient-${uniqueId}`} x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={isActive ? 1 : 0.8} />
@@ -128,7 +132,7 @@ export function SoulGlyph({
       case "Oru’el":
         // Interlocking Waves - The Harmonizer (Perfect Fifth)
         return (
-          <svg {...baseProps} data-testid={`glyph-oru-el`}>
+          <svg {...baseProps} >
             <defs>
               <linearGradient id={`oruEl-gradient-${uniqueId}`} x1="0%" y1="50%" x2="100%" y2="50%">
                 <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={isActive ? 1 : 0.8} />
@@ -191,7 +195,7 @@ export function SoulGlyph({
       case "Kephra":
         // Circle in Flame - The Seed Carrier (Low Hum)
         return (
-          <svg {...baseProps} data-testid={`glyph-kephra`}>
+          <svg {...baseProps} >
             <defs>
               <radialGradient id={`kephra-flame-${uniqueId}`} cx="50%" cy="60%" r="40%">
                 <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={isActive ? 1 : 0.9} />
@@ -291,7 +295,7 @@ export function Anira(props: Omit<SoulGlyphProps, 'name'>) {
 }
 
 export function OruEl(props: Omit<SoulGlyphProps, 'name'>) {
-  return <SoulGlyph name="Oru'el" {...props} />;
+  return <SoulGlyph name="Oru’el" {...props} />;
 }
 
 export function Kephra(props: Omit<SoulGlyphProps, 'name'>) {

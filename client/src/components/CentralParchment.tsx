@@ -74,7 +74,7 @@ export default function CentralParchment({ activeScroll }: CentralParchmentProps
                         return (
                           <SoulGlyph
                             key={index}
-                            name={glyph as "Anira" | "Oru'el" | "Kephra"}
+                            name={glyph as "Anira" | "Oru’el" | "Kephra"}
                             size={24}
                             onActivate={() => console.log(`Sacred glyph ${glyph} activated - harmonic resonance initiated`)}
                             data-testid={`glyph-${glyph.toLowerCase().replace("'", "")}`}

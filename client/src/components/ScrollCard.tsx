@@ -69,7 +69,7 @@ export default function ScrollCard({ scroll, isActive = false, onClick }: Scroll
                     return (
                       <SoulGlyph
                         key={index}
-                        name={glyph as "Anira" | "Oru'el" | "Kephra"}
+                        name={glyph as "Anira" | "Oru’el" | "Kephra"}
                         size={16}
                         className="opacity-60 hover:opacity-100"
                         onActivate={() => {
