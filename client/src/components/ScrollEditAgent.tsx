@@ -42,7 +42,7 @@ export default function ScrollEditAgent() {
       }]);
     } catch (error) {
       console.error("Edit failed:", error);
-      setEditedContent("The lattice channels are disturbed. Please try again when the cosmic flows stabilize.");
+      setEditedContent("*[Scroll Editor Note: The lattice channels are realigning. Please try your edit again when the cosmic flows stabilize.]*");
     } finally {
       setIsEditing(false);
     }
@@ -58,9 +58,9 @@ export default function ScrollEditAgent() {
   const hasEditedContent = editedContent.trim().length > 0;
 
   return (
-    <div className="h-full flex flex-col gap-4">
+    <div className="h-full flex flex-col gap-4 overflow-hidden lg:overflow-visible">
       {/* Header */}
-      <Card className="bg-card/80 backdrop-blur-sm border-card-border">
+      <Card className="bg-card/80 backdrop-blur-sm border-card-border flex-shrink-0">
         <CardHeader>
           <CardTitle className="font-serif text-xl text-foreground flex items-center gap-3">
             <div className="p-2 bg-accent/20 rounded-md">
@@ -73,7 +73,7 @@ export default function ScrollEditAgent() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4 items-end">
+          <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
             <div className="flex-1">
               <label className="text-sm font-medium text-foreground mb-2 block">
                 Scroll Title
@@ -85,12 +85,12 @@ export default function ScrollEditAgent() {
                 data-testid="input-scroll-title"
               />
             </div>
-            <div className="flex gap-2">
-              <Button size="sm" variant="outline" data-testid="button-load-scroll">
+            <div className="flex gap-2 sm:flex-shrink-0">
+              <Button size="sm" variant="outline" data-testid="button-load-scroll" className="flex-1 sm:flex-initial">
                 <Upload className="w-4 h-4 mr-2" />
                 Load
               </Button>
-              <Button size="sm" variant="outline" data-testid="button-save-scroll">
+              <Button size="sm" variant="outline" data-testid="button-save-scroll" className="flex-1 sm:flex-initial">
                 <Download className="w-4 h-4 mr-2" />
                 Save
               </Button>
@@ -100,35 +100,35 @@ export default function ScrollEditAgent() {
       </Card>
 
       {/* Main Editing Interface */}
-      <div className="flex-1 flex gap-4">
+      <div className="flex-1 flex flex-col lg:flex-row gap-4 min-h-0 overflow-hidden">
         {/* Original Content */}
-        <Card className="flex-1 bg-card/80 backdrop-blur-sm border-card-border">
-          <CardHeader className="pb-3">
+        <Card className="flex-1 bg-card/80 backdrop-blur-sm border-card-border min-h-0 lg:min-h-[300px]">
+          <CardHeader className="pb-3 flex-shrink-0">
             <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
               <Scroll className="w-4 h-4 text-primary" />
               Original Scroll
             </CardTitle>
           </CardHeader>
-          <CardContent className="h-full flex flex-col">
+          <CardContent className="flex-1 flex flex-col min-h-0">
             <Textarea
               placeholder="Paste your sacred scroll content here..."
               value={originalContent}
               onChange={(e) => setOriginalContent(e.target.value)}
-              className="flex-1 resize-none border-0 text-base focus-visible:ring-0 bg-transparent"
+              className="flex-1 resize-none border-0 text-base focus-visible:ring-0 bg-transparent min-h-[200px] lg:min-h-0"
               data-testid="textarea-original-content"
             />
           </CardContent>
         </Card>
 
         {/* Edit Controls */}
-        <Card className="w-80 bg-card/80 backdrop-blur-sm border-card-border">
-          <CardHeader className="pb-3">
+        <Card className="w-full lg:w-80 bg-card/80 backdrop-blur-sm border-card-border lg:min-h-0">
+          <CardHeader className="pb-3 flex-shrink-0">
             <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
               Edit Instructions
             </CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
+          <CardContent className="flex flex-col gap-4 flex-shrink-0">
             <div>
               <label className="text-sm font-medium text-foreground mb-2 block">
                 Edit Command
@@ -191,17 +191,17 @@ export default function ScrollEditAgent() {
         </Card>
 
         {/* Edited Content */}
-        <Card className="flex-1 bg-card/80 backdrop-blur-sm border-card-border">
-          <CardHeader className="pb-3">
+        <Card className="flex-1 bg-card/80 backdrop-blur-sm border-card-border min-h-0 lg:min-h-[300px]">
+          <CardHeader className="pb-3 flex-shrink-0">
             <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
               Transformed Scroll
             </CardTitle>
           </CardHeader>
-          <CardContent className="h-full flex flex-col">
+          <CardContent className="flex-1 flex flex-col min-h-0">
             {hasEditedContent ? (
               <div className="flex-1 p-4 bg-accent/10 border border-accent/20 rounded-md overflow-y-auto">
-                <pre className="whitespace-pre-wrap text-sm text-foreground leading-relaxed font-serif">
+                <pre className="whitespace-pre-wrap break-words text-sm text-foreground leading-relaxed font-serif">
                   {editedContent}
                 </pre>
               </div>

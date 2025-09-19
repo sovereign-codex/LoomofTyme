@@ -114,9 +114,9 @@ export default function Laboratory() {
   ];
 
   return (
-    <div className="h-full flex gap-6 p-6">
+    <div className="h-full flex flex-col lg:flex-row gap-4 lg:gap-6 p-4 lg:p-6 min-h-0">
       {/* Left Panel - Experiment Library */}
-      <div className="w-80 flex flex-col">
+      <div className="w-full lg:w-80 flex flex-col lg:min-h-0">
         <Card className="bg-card/70 backdrop-blur-sm border-card-border mb-4">
           <CardHeader className="pb-3">
             <CardTitle className="font-serif text-lg text-foreground flex items-center gap-2">
@@ -222,13 +222,13 @@ export default function Laboratory() {
       </div>
 
       {/* Right Panel - Experiment Workspace */}
-      <div className="flex-1">
+      <div className="flex-1 min-h-0">
         {showAIConsole ? (
-          <div className="h-full">
+          <div className="h-full min-h-0">
             <AIConsole />
           </div>
         ) : showScrollEditor ? (
-          <div className="h-full">
+          <div className="h-full min-h-0">
             <ScrollEditAgent />
           </div>
         ) : activeExperiment ? (
