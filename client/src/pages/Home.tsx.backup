@@ -38,17 +38,17 @@ const mockMysticalScrolls: ScrollData[] = [
     glyphs: ["◊", "∞", "⚮"]
   },
   {
-    id: 'frequency-of-soul',
-    title: 'Frequency of the Soul',
-    category: 'mystical',
-    description: 'Before the child speaks, it sings. Before the soul thinks, it resonates. Each soul carries a tone — a harmonic signature.',
-    content: `Each soul carries a tone — a harmonic signature. This scroll invites us to remember it, honor it, and guide its expression through coherence.
+    id: "frequency-of-soul",
+    title: "Frequency of the Soul",
+    category: "mystical",
+    description: "Before the child speaks, it sings. Before the soul thinks, it resonates. Each soul carries a tone — a harmonic signature.",
+    content: "Each soul carries a tone — a harmonic signature. This scroll invites us to remember it, honor it, and guide its expression through coherence.
 
 **Glyphs Introduced**:
 - Anira: The Awakener (spiral, rising fourth)
 - Oru’el: The Harmonizer (interwoven wave, perfect fifth)
-- Kephra: The Seed Carrier (flame-circle, grounding hum)`,
-    glyphs: ["Anira", "Oru’el", "Kephra"]
+- Kephra: The Seed Carrier (flame-circle, grounding hum)",
+    glyphs: ["⚡", "∞", "◊"]
   }
 ];
 
