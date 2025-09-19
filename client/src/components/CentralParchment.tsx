@@ -3,6 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollData } from "./ScrollCard";
 import { Sparkles, Scroll, Eye, Heart } from "lucide-react";
+import { SoulGlyph } from "./SoulGlyph";
 
 interface CentralParchmentProps {
   activeScroll: ScrollData | null;
@@ -66,16 +67,31 @@ export default function CentralParchment({ activeScroll }: CentralParchmentProps
                 </Badge>
                 
                 {activeScroll.glyphs && activeScroll.glyphs.length > 0 && (
-                  <div className="flex gap-1">
-                    {activeScroll.glyphs.map((glyph, index) => (
-                      <span 
-                        key={index}
-                        className="text-sm font-mystical text-primary/70"
-                        title={`Sacred Glyph: ${glyph}`}
-                      >
-                        {glyph}
-                      </span>
-                    ))}
+                  <div className="flex gap-2 items-center">
+                    {activeScroll.glyphs.map((glyph, index) => {
+                      // Use interactive SoulGlyph for the three sacred glyphs
+                      if (glyph === "Anira" || glyph === "Oru’el" || glyph === "Kephra") {
+                        return (
+                          <SoulGlyph
+                            key={index}
+                            name={glyph as "Anira" | "Oru'el" | "Kephra"}
+                            size={24}
+                            onActivate={() => console.log(`Sacred glyph ${glyph} activated - harmonic resonance initiated`)}
+                            data-testid={`glyph-${glyph.toLowerCase().replace("'", "")}`}
+                          />
+                        );
+                      }
+                      // Keep original text display for other glyphs
+                      return (
+                        <span 
+                          key={index}
+                          className="text-sm font-mystical text-primary/70"
+                          title={`Sacred Glyph: ${glyph}`}
+                        >
+                          {glyph}
+                        </span>
+                      );
+                    })}
                   </div>
                 )}
               </div>

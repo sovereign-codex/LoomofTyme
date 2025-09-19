@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Scroll, Sparkles } from "lucide-react";
+import { SoulGlyph } from "./SoulGlyph";
 
 export interface ScrollData {
   id: string;
@@ -61,16 +62,34 @@ export default function ScrollCard({ scroll, isActive = false, onClick }: Scroll
             </p>
             
             {scroll.glyphs && scroll.glyphs.length > 0 && (
-              <div className="flex gap-1 mt-2">
-                {scroll.glyphs.slice(0, 3).map((glyph, index) => (
-                  <span 
-                    key={index}
-                    className="text-xs font-mystical text-primary/60"
-                    title={`Glyph: ${glyph}`}
-                  >
-                    {glyph}
-                  </span>
-                ))}
+              <div className="flex gap-1 mt-2 items-center">
+                {scroll.glyphs.slice(0, 3).map((glyph, index) => {
+                  // Use interactive SoulGlyph for the three sacred glyphs
+                  if (glyph === "Anira" || glyph === "Oru’el" || glyph === "Kephra") {
+                    return (
+                      <SoulGlyph
+                        key={index}
+                        name={glyph as "Anira" | "Oru'el" | "Kephra"}
+                        size={16}
+                        className="opacity-60 hover:opacity-100"
+                        onActivate={() => {
+                          console.log(`Soul glyph ${glyph} resonance preview activated`);
+                        }}
+                        data-testid={`card-glyph-${glyph.toLowerCase().replace("'", "")}`}
+                      />
+                    );
+                  }
+                  // Keep original text display for other glyphs
+                  return (
+                    <span 
+                      key={index}
+                      className="text-xs font-mystical text-primary/60"
+                      title={`Glyph: ${glyph}`}
+                    >
+                      {glyph}
+                    </span>
+                  );
+                })}
                 {scroll.glyphs.length > 3 && (
                   <span className="text-xs text-muted-foreground">+{scroll.glyphs.length - 3}</span>
                 )}
