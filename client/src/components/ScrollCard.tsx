@@ -19,14 +19,11 @@ interface ScrollCardProps {
 }
 
 export default function ScrollCard({ scroll, isActive = false, onClick }: ScrollCardProps) {
-  // Debug: Log card rendering for mobile debugging
-  const debugClasses = `cursor-pointer transition-all duration-300 hover-elevate active-elevate-2 border-card-border
-    ${isActive ? 'ring-2 ring-primary bg-card/80' : 'bg-card/60'} 
-    backdrop-blur-sm relative overflow-hidden w-full`;
-  
   return (
     <Card 
-      className={debugClasses}
+      className={`scroll-card cursor-pointer transition-all duration-300 hover-elevate active-elevate-2 border-card-border
+        ${isActive ? 'ring-2 ring-primary bg-card/80' : 'bg-card/60'} 
+        backdrop-blur-sm relative overflow-hidden`}
       onClick={onClick}
       data-testid={`scroll-card-${scroll.id}`}
     >

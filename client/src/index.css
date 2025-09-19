@@ -273,12 +273,31 @@
   }
 }
 
+/* Sacred Scroll Card Utilities */
+.scroll-card {
+  @apply bg-white bg-opacity-80 rounded-xl shadow-xl p-4 my-4 backdrop-blur;
+}
+
+.scroll-title {
+  @apply text-lg font-semibold tracking-wide text-center;
+}
+
 /* Mobile Harmonics - Touch Realm Optimizations */
 @media (max-width: 768px) {
-  /* Ensure mobile viewport and scrolling works properly - DON'T override font-size */
+  /* Ensure mobile viewport and scrolling works properly */
   html, body {
     overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
+  }
+  
+  /* Mobile scroll card responsive design */
+  .scroll-card {
+    @apply flex-col text-center p-3;
+  }
+
+  /* Mobile typography fixes from style patch */
+  h1, h2, h3 {
+    @apply text-base !important;
   }
   
   /* Mobile spacing adjustments */
@@ -307,10 +326,5 @@
   .overflow-y-auto, .mobile-drawer, .mobile-parchment {
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
-  }
-  
-  /* Debug helper - add border to mobile elements for testing */
-  .mobile-debug {
-    border: 2px solid red !important;
   }
 }

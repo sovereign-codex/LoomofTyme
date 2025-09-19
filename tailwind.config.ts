@@ -87,6 +87,11 @@ export default {
         serif: ["Cinzel", "Georgia", "serif"], 
         mono: ["Courier New", "monospace"],
         mystical: ["UnifrakturMaguntia", "serif"],
+        parchment: ['Garamond', 'serif'],
+      },
+      backgroundImage: {
+        'mystic': "url('/attached_assets/mystical_images/BAB92DDE-CEFC-4C0F-95C8-FF367942C2E4.jpeg')",
+        'veil': "url('/attached_assets/mystical_images/32137296-5369-4EAF-8147-5A90B4025C19.jpeg')",
       },
       keyframes: {
         "accordion-down": {

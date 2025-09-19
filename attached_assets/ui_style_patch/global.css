@@ -1,0 +1,31 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-image: url('/attached_assets/mystical_images/BAB92DDE-CEFC-4C0F-95C8-FF367942C2E4.jpeg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  backdrop-filter: blur(1px);
+  font-family: 'Garamond', serif;
+}
+
+.scroll-card {
+  @apply bg-white bg-opacity-80 rounded-xl shadow-xl p-4 my-4 backdrop-blur;
+}
+
+.scroll-title {
+  @apply text-lg font-semibold tracking-wide text-center;
+}
+
+@media (max-width: 768px) {
+  .scroll-card {
+    @apply flex-col text-center;
+  }
+
+  h1, h2, h3 {
+    @apply text-base;
+  }
+}
