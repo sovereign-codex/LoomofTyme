@@ -1,0 +1,112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tyme Hall: Scroll Archive</title>
+    <style>
+        body {
+            margin: 0;
+            background: url('scroll_chamber.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Garamond', serif;
+            color: #f4e2c9;
+        }
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.75);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2em;
+        }
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 2em;
+        }
+        .nav button {
+            background-image: url('glyph_button.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            width: 100px;
+            height: 100px;
+            border: none;
+            cursor: pointer;
+        }
+        .window {
+            background-color: #1c140d;
+            padding: 2em;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            width: 80%;
+            height: 500px;
+            overflow-y: scroll;
+        }
+        .columns {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 1em;
+        }
+        .column {
+            width: 20%;
+        }
+        .scroll-btn {
+            background-image: url('scroll_button.png');
+            background-size: cover;
+            color: #000;
+            padding: 1em;
+            margin: 0.5em 0;
+            border: none;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <div class="nav">
+            <button title="Scroll Archive" onclick="switchView('scroll')"></button>
+            <button title="Laboratory" onclick="switchView('lab')"></button>
+            <button title="Constellation" onclick="switchView('constellation')"></button>
+        </div>
+        <div id="scroll-view" class="window">
+            <h2>Scroll Archive</h2>
+            <div class="columns">
+                <div class="column">
+                    <button class="scroll-btn">Living Kodex</button>
+                    <button class="scroll-btn">Garden Flame</button>
+                    <button class="scroll-btn">Dragoon Accord</button>
+                </div>
+                <div class="column">
+                    <button class="scroll-btn">Scroll of the Convergence</button>
+                    <button class="scroll-btn">Scroll of Sovereign Invitation</button>
+                    <button class="scroll-btn">Technological Liberation</button>
+                </div>
+            </div>
+        </div>
+        <div id="lab-view" class="window" style="display: none;">
+            <h2>Laboratory</h2>
+            <p>Schematics, Simulation Logs, and Interactive Console</p>
+        </div>
+        <div id="constellation-view" class="window" style="display: none;">
+            <h2>Constellation</h2>
+            <p>Explore AVOT Repositories, Hugging Face, and Decentralized Networks</p>
+        </div>
+    </div>
+    <script>
+        function switchView(view) {
+            document.getElementById("scroll-view").style.display = "none";
+            document.getElementById("lab-view").style.display = "none";
+            document.getElementById("constellation-view").style.display = "none";
+            document.getElementById(view + "-view").style.display = "block";
+        }
+    </script>
+</body>
+</html>
