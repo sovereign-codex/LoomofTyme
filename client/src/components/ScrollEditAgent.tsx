@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Scroll, Edit, Sparkles, Download, Upload, BookOpen } from "lucide-react";
+import { Scroll, Edit, Sparkles, Download, Upload, BookOpen, Wand2 } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useMutation } from "@tanstack/react-query";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ScrollLibrary from "./ScrollLibrary";
 import { Scroll as ScrollType } from "@shared/schema";
+import { SCROLL_TEMPLATES, TemplateId } from "@/lib/scrollTemplates";
+import { routePrompt, getRecommendedTemplate } from "@/lib/promptRouter";
 
 export default function ScrollEditAgent() {
   const [originalContent, setOriginalContent] = useState("");
@@ -19,6 +22,8 @@ export default function ScrollEditAgent() {
   const [editHistory, setEditHistory] = useState<Array<{prompt: string, timestamp: string}>>([]);
   const [showLibrary, setShowLibrary] = useState(false);
   const [selectedScroll, setSelectedScroll] = useState<ScrollType | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateId | null>(null);
+  const [showTemplateRecommendation, setShowTemplateRecommendation] = useState(false);
 
   const handleEdit = async () => {
     if (!originalContent.trim() || !editPrompt.trim()) return;
@@ -74,15 +79,15 @@ export default function ScrollEditAgent() {
 
   const saveScrollMutation = useMutation({
     mutationFn: async (scrollData: any) => {
-      return await apiRequest("/api/scrolls", {
-        method: "POST",
-        body: JSON.stringify(scrollData),
-      });
+      return await apiRequest("POST", "/api/scrolls", scrollData);
     },
     onSuccess: () => {
       console.log("Scroll saved to library successfully");
-      // Invalidate scroll queries to refresh library
-      queryClient.invalidateQueries({ queryKey: ['/api/scrolls'] });
+      // Invalidate ALL scroll queries to refresh both library and archive
+      queryClient.invalidateQueries({ 
+        predicate: (query) => 
+          query.queryKey[0] === '/api/scrolls'
+      });
     },
     onError: (error) => {
       console.error("Failed to save scroll to library:", error);
@@ -95,16 +100,50 @@ export default function ScrollEditAgent() {
       return;
     }
 
+    // Determine category from selected template
+    const template = selectedTemplate ? SCROLL_TEMPLATES[selectedTemplate] : null;
+    const category = template?.category || "mystical";
+
     const scrollData = {
       title: scrollTitle,
       content: originalContent,
-      category: "mystical",
-      tags: [],
-      glyphs: [],
+      category: category,
+      tags: selectedTemplate ? [selectedTemplate] : [],
+      glyphs: template ? [template.glyph] : [],
       source: "user_created"
     };
 
     saveScrollMutation.mutate(scrollData);
+  };
+
+  const handleLoadTemplate = (templateId: TemplateId) => {
+    const template = SCROLL_TEMPLATES[templateId];
+    if (template) {
+      setSelectedTemplate(templateId);
+      setOriginalContent(template.template);
+      setScrollTitle(`New ${template.name}`);
+      setEditedContent("");
+      setEditPrompt("");
+    }
+  };
+
+  const handlePromptChange = (newPrompt: string) => {
+    setEditPrompt(newPrompt);
+    
+    if (newPrompt.trim().length > 10) {
+      const recommendation = getRecommendedTemplate(newPrompt);
+      if (recommendation.confidence === 'high' && !selectedTemplate) {
+        setShowTemplateRecommendation(true);
+      }
+    } else {
+      setShowTemplateRecommendation(false);
+    }
+  };
+
+  const acceptTemplateRecommendation = () => {
+    const recommendation = getRecommendedTemplate(editPrompt);
+    handleLoadTemplate(recommendation.templateId);
+    setShowTemplateRecommendation(false);
   };
 
   const canTransform = originalContent.trim() && editPrompt.trim() && !isEditing;
@@ -148,15 +187,35 @@ export default function ScrollEditAgent() {
       {/* Header */}
       <Card className="bg-card/80 backdrop-blur-sm border-card-border flex-shrink-0">
         <CardHeader>
-          <CardTitle className="font-serif text-xl text-foreground flex items-center gap-3">
-            <div className="p-2 bg-accent/20 rounded-md">
-              <Edit className="w-5 h-5 text-accent-foreground" />
+          <div className="flex items-center justify-between">
+            <CardTitle className="font-serif text-xl text-foreground flex items-center gap-3">
+              <div className="p-2 bg-accent/20 rounded-md">
+                <Edit className="w-5 h-5 text-accent-foreground" />
+              </div>
+              Scroll Edit Agent
+              <Badge variant="outline" className="text-xs">
+                Mystical Editor v2.1
+              </Badge>
+            </CardTitle>
+            
+            <div className="flex items-center gap-2">
+              <Select value={selectedTemplate || ''} onValueChange={(value) => handleLoadTemplate(value as TemplateId)}>
+                <SelectTrigger className="w-48 border-accent/20" data-testid="select-template">
+                  <SelectValue placeholder="Select template..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(SCROLL_TEMPLATES).map(([key, template]) => (
+                    <SelectItem key={key} value={key} data-testid={`template-${key}`}>
+                      <span className="flex items-center gap-2">
+                        <span>{template.glyph}</span>
+                        <span>{template.name}</span>
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-            Scroll Edit Agent
-            <Badge variant="outline" className="text-xs ml-auto">
-              Mystical Editor v2.1
-            </Badge>
-          </CardTitle>
+          </div>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row gap-4 sm:items-end">
@@ -235,10 +294,47 @@ export default function ScrollEditAgent() {
               <Textarea
                 placeholder="Describe how you want to transform this scroll..."
                 value={editPrompt}
-                onChange={(e) => setEditPrompt(e.target.value)}
+                onChange={(e) => handlePromptChange(e.target.value)}
                 className="min-h-24 resize-none text-sm"
                 data-testid="textarea-edit-prompt"
               />
+              
+              {showTemplateRecommendation && (
+                <div className="mt-2 p-3 bg-accent/10 border border-accent/20 rounded-md">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm">
+                      <div className="font-medium text-foreground flex items-center gap-2">
+                        <Wand2 className="w-4 h-4 text-primary" />
+                        Template Suggestion
+                      </div>
+                      <div className="text-muted-foreground mt-1">
+                        {(() => {
+                          const rec = getRecommendedTemplate(editPrompt);
+                          const template = SCROLL_TEMPLATES[rec.templateId];
+                          return `${template.glyph} ${template.name} - ${rec.reason}`;
+                        })()}
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        onClick={() => setShowTemplateRecommendation(false)}
+                        data-testid="button-dismiss-recommendation"
+                      >
+                        Dismiss
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        onClick={acceptTemplateRecommendation}
+                        data-testid="button-accept-recommendation"
+                      >
+                        Use Template
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             <Button

@@ -1,0 +1,13 @@
+
+<select id="scrollTemplateSelector">
+  <option value="Codex_Entry_Template.md">Codex Entry</option>
+  <option value="Scientific_Scroll_Template.md">Scientific Scroll</option>
+  <option value="Invocation_Template.md">Invocation Scroll</option>
+</select>
+<script>
+  document.getElementById("scrollTemplateSelector").addEventListener("change", function() {
+    const file = this.value;
+    // Inject content loading logic for selected template
+    loadTemplateIntoEditor(file);
+  });
+</script>
