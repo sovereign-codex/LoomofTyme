@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import ScrollSidebar from "@/components/ScrollSidebar";
 import CentralParchment from "@/components/CentralParchment";
 import { ScrollData } from "@/components/ScrollCard";
+import { Scroll } from "@shared/schema";
 
 //todo: remove mock functionality 
 const mockMysticalScrolls: ScrollData[] = [
@@ -138,13 +140,52 @@ const mockTechnicalScrolls: ScrollData[] = [
 export default function Home() {
   const [activeScroll, setActiveScroll] = useState<ScrollData | null>(null);
 
+  // Fetch real scroll data from API
+  const { data: scrollsData, isLoading } = useQuery({
+    queryKey: ['/api/scrolls'],
+    queryFn: async () => {
+      const response = await fetch('/api/scrolls');
+      if (!response.ok) throw new Error('Failed to fetch scrolls');
+      return response.json();
+    },
+  });
+
+  const allScrolls: Scroll[] = scrollsData?.scrolls || [];
+  
+  // Convert Scroll to ScrollData format and filter by category
+  const mysticalScrolls: ScrollData[] = allScrolls
+    .filter(scroll => scroll.category === 'mystical')
+    .map(scroll => ({
+      id: scroll.id,
+      title: scroll.title,
+      category: scroll.category as "mystical" | "technical",
+      description: scroll.content.substring(0, 150) + '...',
+      content: scroll.content,
+      glyphs: scroll.glyphs || ["⚮"]
+    }));
+
+  const technicalScrolls: ScrollData[] = allScrolls
+    .filter(scroll => scroll.category === 'technical')
+    .map(scroll => ({
+      id: scroll.id,
+      title: scroll.title,
+      category: scroll.category as "mystical" | "technical", 
+      description: scroll.content.substring(0, 150) + '...',
+      content: scroll.content,
+      glyphs: scroll.glyphs || ["⚡"]
+    }));
+
+  // Use mock data as fallback when loading or if no API data
+  const finalMysticalScrolls = mysticalScrolls.length > 0 ? mysticalScrolls : mockMysticalScrolls;
+  const finalTechnicalScrolls = technicalScrolls.length > 0 ? technicalScrolls : mockTechnicalScrolls;
+
   return (
     <div className="h-full flex flex-col md:flex-row md:gap-6 gap-3 md:p-6 p-3">
       {/* Mobile: Stack vertically, Desktop: Left Sidebar - Mystical Scrolls */}
       <div className="w-full md:w-80 md:flex-shrink-0 order-2 md:order-1">
         <ScrollSidebar
           title="Mystical Scrolls"
-          scrolls={mockMysticalScrolls}
+          scrolls={finalMysticalScrolls}
           activeScrollId={activeScroll?.id}
           onScrollSelect={setActiveScroll}
           category="mystical"
@@ -160,7 +201,7 @@ export default function Home() {
       <div className="w-full md:w-80 md:flex-shrink-0 order-3">
         <ScrollSidebar
           title="Technical Scrolls"
-          scrolls={mockTechnicalScrolls}
+          scrolls={finalTechnicalScrolls}
           activeScrollId={activeScroll?.id}
           onScrollSelect={setActiveScroll}
           category="technical"
