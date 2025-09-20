@@ -8,6 +8,8 @@ import Home from "@/pages/Home";
 import Laboratory from "@/pages/Laboratory";
 import Constellation from "@/pages/Constellation";
 import NotFound from "@/pages/not-found";
+import { applyBackgroundConfig, TYME_HALL_CONFIG } from "./lib/backgroundConfig";
+import { useEffect } from "react";
 
 function Router() {
   return (
@@ -21,6 +23,12 @@ function Router() {
 }
 
 function App() {
+  // Initialize Tyme Hall background configuration
+  useEffect(() => {
+    applyBackgroundConfig(TYME_HALL_CONFIG);
+    document.body.classList.add('scroll-chamber-themed');
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

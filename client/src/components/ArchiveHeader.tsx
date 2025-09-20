@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import ThemeToggle from "./ThemeToggle";
 import { Sparkles, Menu, Settings, Info } from "lucide-react";
+import TymeFlameSealImg from "@/assets/TymeFlameSeal.png";
 
 interface ArchiveHeaderProps {
   onMenuToggle?: () => void;
@@ -27,8 +28,13 @@ export default function ArchiveHeader({ onMenuToggle, showMenuButton = false }: 
             )}
             
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/20 rounded-md">
-                <Sparkles className="w-6 h-6 text-primary" />
+              <div className="p-2 bg-primary/20 rounded-md relative">
+                <img 
+                  src={TymeFlameSealImg} 
+                  alt="Tyme Flame Seal" 
+                  className="w-6 h-6 object-contain"
+                />
+                <Sparkles className="w-3 h-3 text-primary absolute -top-1 -right-1" />
               </div>
               <div>
                 <h1 className="font-serif text-xl font-medium text-foreground">
