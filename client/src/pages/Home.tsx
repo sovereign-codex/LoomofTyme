@@ -139,6 +139,7 @@ const mockTechnicalScrolls: ScrollData[] = [
 
 export default function Home() {
   const [activeScroll, setActiveScroll] = useState<ScrollData | null>(null);
+  
 
   // Fetch real scroll data from API
   const { data: scrollsData, isLoading } = useQuery({
