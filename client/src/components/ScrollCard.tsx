@@ -21,9 +21,10 @@ interface ScrollCardProps {
 export default function ScrollCard({ scroll, isActive = false, onClick }: ScrollCardProps) {
   return (
     <Card 
-      className={`scroll-card cursor-pointer transition-all duration-300 hover-elevate active-elevate-2 border-card-border
-        ${isActive ? 'ring-2 ring-primary bg-card/80' : 'bg-card/60'} 
-        backdrop-blur-sm relative overflow-hidden`}
+      className={`scroll-card cursor-pointer transition-all duration-300 border-card-border relative
+        ${isActive ? 'ring-2 ring-primary bg-card/80' : 'bg-card'} 
+        md:bg-card/60 md:backdrop-blur-sm md:hover-elevate md:active-elevate-2
+        active:bg-card/90 touch-manipulation`}
       onClick={onClick}
       data-testid={`scroll-card-${scroll.id}`}
     >

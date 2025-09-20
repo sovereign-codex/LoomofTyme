@@ -30,7 +30,7 @@ export default function ScrollSidebar({
   );
 
   return (
-    <Card className="h-full bg-card/60 backdrop-blur-sm border-card-border flex flex-col md:h-full mobile-drawer">
+    <Card className="h-full bg-card border-card-border flex flex-col md:h-full md:bg-card/60 md:backdrop-blur-sm">
       <CardHeader className="border-b border-card-border/50 md:pb-4 pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="font-serif md:text-lg text-base text-foreground flex items-center gap-2">

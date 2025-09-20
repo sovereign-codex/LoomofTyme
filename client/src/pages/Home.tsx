@@ -181,32 +181,63 @@ export default function Home() {
   const finalTechnicalScrolls = technicalScrolls.length > 0 ? technicalScrolls : mockTechnicalScrolls;
 
   return (
-    <div className="h-full flex flex-col md:flex-row md:gap-6 gap-3 md:p-6 p-3">
-      {/* Mobile: Stack vertically, Desktop: Left Sidebar - Mystical Scrolls */}
-      <div className="w-full md:w-80 md:flex-shrink-0 order-2 md:order-1">
-        <ScrollSidebar
-          title="Mystical Scrolls"
-          scrolls={finalMysticalScrolls}
-          activeScrollId={activeScroll?.id}
-          onScrollSelect={setActiveScroll}
-          category="mystical"
-        />
+    <div className="h-full w-full">
+      {/* Mobile: Simple vertical stack, Desktop: Three-column layout */}
+      <div className="md:hidden flex flex-col h-full gap-4 p-4">
+        {/* Mobile: Central content first */}
+        <div className="flex-1 min-h-[50vh] mb-4">
+          <CentralParchment activeScroll={activeScroll} />
+        </div>
+        
+        {/* Mobile: Scrolls in simple vertical list */}
+        <div className="space-y-4">
+          <div className="max-h-[40vh] overflow-y-auto">
+            <ScrollSidebar
+              title="Mystical Scrolls"
+              scrolls={finalMysticalScrolls}
+              activeScrollId={activeScroll?.id}
+              onScrollSelect={setActiveScroll}
+              category="mystical"
+            />
+          </div>
+          
+          <div className="max-h-[40vh] overflow-y-auto">
+            <ScrollSidebar
+              title="Technical Scrolls"
+              scrolls={finalTechnicalScrolls}
+              activeScrollId={activeScroll?.id}
+              onScrollSelect={setActiveScroll}
+              category="technical"
+            />
+          </div>
+        </div>
       </div>
-      
-      {/* Central Parchment - Priority position on mobile */}
-      <div className="flex-1 order-1 md:order-2 min-h-[40vh] overflow-y-auto">
-        <CentralParchment activeScroll={activeScroll} />
-      </div>
-      
-      {/* Mobile: Stack below central, Desktop: Right Sidebar - Technical Scrolls */}
-      <div className="w-full md:w-80 md:flex-shrink-0 order-3">
-        <ScrollSidebar
-          title="Technical Scrolls"
-          scrolls={finalTechnicalScrolls}
-          activeScrollId={activeScroll?.id}
-          onScrollSelect={setActiveScroll}
-          category="technical"
-        />
+
+      {/* Desktop: Original three-column layout */}
+      <div className="hidden md:flex md:flex-row md:gap-6 md:p-6 h-full">
+        <div className="w-80 flex-shrink-0">
+          <ScrollSidebar
+            title="Mystical Scrolls"
+            scrolls={finalMysticalScrolls}
+            activeScrollId={activeScroll?.id}
+            onScrollSelect={setActiveScroll}
+            category="mystical"
+          />
+        </div>
+        
+        <div className="flex-1 overflow-y-auto">
+          <CentralParchment activeScroll={activeScroll} />
+        </div>
+        
+        <div className="w-80 flex-shrink-0">
+          <ScrollSidebar
+            title="Technical Scrolls"
+            scrolls={finalTechnicalScrolls}
+            activeScrollId={activeScroll?.id}
+            onScrollSelect={setActiveScroll}
+            category="technical"
+          />
+        </div>
       </div>
     </div>
   );
