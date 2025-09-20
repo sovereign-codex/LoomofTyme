@@ -183,15 +183,15 @@ export default function Home() {
   return (
     <div className="h-full w-full">
       {/* Mobile: Simple vertical stack, Desktop: Three-column layout */}
-      <div className="md:hidden flex flex-col h-full gap-4 p-4">
+      <div className="md:hidden flex flex-col min-h-screen gap-4 p-4 overflow-y-auto">
         {/* Mobile: Central content first */}
-        <div className="flex-1 min-h-[50vh] mb-4">
+        <div className="h-[40vh] flex-shrink-0 mb-4">
           <CentralParchment activeScroll={activeScroll} />
         </div>
         
         {/* Mobile: Scrolls in simple vertical list */}
-        <div className="space-y-4">
-          <div className="max-h-[40vh] overflow-y-auto">
+        <div className="flex-1 space-y-4 pb-8">
+          <div className="h-[35vh] flex-shrink-0">
             <ScrollSidebar
               title="Mystical Scrolls"
               scrolls={finalMysticalScrolls}
@@ -201,7 +201,7 @@ export default function Home() {
             />
           </div>
           
-          <div className="max-h-[40vh] overflow-y-auto">
+          <div className="h-[35vh] flex-shrink-0">
             <ScrollSidebar
               title="Technical Scrolls"
               scrolls={finalTechnicalScrolls}
