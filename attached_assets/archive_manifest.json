@@ -1,0 +1,61 @@
+{
+  "generated": "2025-09-20T09:14:01.526237",
+  "scrolls": [
+    {
+      "title": "From Binary to Harmonic",
+      "filename": "01_From_Binary_to_Harmonic/scroll.md",
+      "avot": "AVOT-Convergence",
+      "node": "Sovereign Intelligence Genesis",
+      "glyph": "infinity-flame"
+    },
+    {
+      "title": "Aetherwell Field Manual",
+      "filename": "02_Aetherwell_Field_Manual/scroll.md",
+      "avot": "AVOT-Water",
+      "node": "Node 05 \u2013 Aetherwell",
+      "glyph": "aether-drop"
+    },
+    {
+      "title": "Vortex Initiation Protocol",
+      "filename": "03_Vortex_Initiation_Scroll/scroll.md",
+      "avot": "AVOT-Energy",
+      "node": "Plasma\u2013Crystal\u2013Vortex System",
+      "glyph": "plasma-ring"
+    },
+    {
+      "title": "Garden Flame Codex",
+      "filename": "04_Garden_Flame_Codex/scroll.md",
+      "avot": "AVOT-Guardian",
+      "node": "Ethical Layer",
+      "glyph": "garden-flame"
+    },
+    {
+      "title": "Sovereign Emissions Code",
+      "filename": "05_Sovereign_Emissions_Code/scroll.md",
+      "avot": "AVOT-Guardian",
+      "node": "EEE Infrastructure",
+      "glyph": "globe-beacon"
+    },
+    {
+      "title": "Fountain of Coherence",
+      "filename": "06_Fountain_of_Coherence_Scroll/scroll.md",
+      "avot": "AVOT-Water",
+      "node": "Living Dwelling Stack",
+      "glyph": "coherence-fountain"
+    },
+    {
+      "title": "X\u2013Change Codex",
+      "filename": "07_XChange_Codex/scroll.md",
+      "avot": "AVOT-Harmonia",
+      "node": "Resonance Economy",
+      "glyph": "infinity-X"
+    },
+    {
+      "title": "Scroll of the SubStreet",
+      "filename": "08_Scroll_of_the_SubStreet/scroll.md",
+      "avot": "AVOT-Guardian",
+      "node": "Guardian Lattice",
+      "glyph": "substreet-gate"
+    }
+  ]
+}
