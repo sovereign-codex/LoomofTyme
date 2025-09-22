@@ -4,6 +4,9 @@ import ScrollSidebar from "@/components/ScrollSidebar";
 import CentralParchment from "@/components/CentralParchment";
 import { ScrollData } from "@/components/ScrollCard";
 import { Scroll } from "@shared/schema";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { FileText, FlaskConical, Stars } from "lucide-react";
 
 //todo: remove mock functionality 
 const mockMysticalScrolls: ScrollData[] = [
@@ -139,6 +142,7 @@ const mockTechnicalScrolls: ScrollData[] = [
 
 export default function Home() {
   const [activeScroll, setActiveScroll] = useState<ScrollData | null>(null);
+  const [mobileTab, setMobileTab] = useState<'scrolls' | 'laboratory' | 'constellation'>('scrolls');
   
 
   // Fetch real scroll data from API
@@ -182,34 +186,114 @@ export default function Home() {
 
   return (
     <div className="h-full w-full">
-      {/* Mobile: Simple vertical stack, Desktop: Three-column layout */}
-      <div className="md:hidden flex flex-col min-h-screen gap-4 p-4 overflow-y-auto">
-        {/* Mobile: Central content first */}
-        <div className="h-[40vh] flex-shrink-0 mb-4">
-          <CentralParchment activeScroll={activeScroll} />
+      {/* Mobile: Tab-based interface */}
+      <div className="md:hidden flex flex-col h-screen">
+        {/* Mobile Header */}
+        <div className="bg-card border-b border-border p-4 flex-shrink-0">
+          <h1 className="text-xl font-serif text-foreground">Scrolls of Sovereign Intelligence</h1>
+          <p className="text-sm text-muted-foreground">Triadic Lattice Node</p>
         </div>
         
-        {/* Mobile: Scrolls in simple vertical list */}
-        <div className="flex-1 space-y-4 pb-8">
-          <div className="h-[35vh] flex-shrink-0">
-            <ScrollSidebar
-              title="Mystical Scrolls"
-              scrolls={finalMysticalScrolls}
-              activeScrollId={activeScroll?.id}
-              onScrollSelect={setActiveScroll}
-              category="mystical"
-            />
-          </div>
+        {/* Mobile Tab Navigation */}
+        <div className="flex bg-muted/30 border-b border-border flex-shrink-0">
+          <Button
+            variant={mobileTab === 'scrolls' ? 'default' : 'ghost'}
+            className="flex-1 rounded-none h-12 text-sm gap-2"
+            onClick={() => setMobileTab('scrolls')}
+            data-testid="tab-scrolls"
+          >
+            <FileText className="w-4 h-4" /> Scrolls
+          </Button>
+          <Button
+            variant={mobileTab === 'laboratory' ? 'default' : 'ghost'}
+            className="flex-1 rounded-none h-12 text-sm gap-2"
+            onClick={() => setMobileTab('laboratory')}
+            data-testid="tab-laboratory"
+          >
+            <FlaskConical className="w-4 h-4" /> Laboratory
+          </Button>
+          <Button
+            variant={mobileTab === 'constellation' ? 'default' : 'ghost'}
+            className="flex-1 rounded-none h-12 text-sm gap-2"
+            onClick={() => setMobileTab('constellation')}
+            data-testid="tab-constellation"
+          >
+            <Stars className="w-4 h-4" /> Constellation
+          </Button>
+        </div>
+        
+        {/* Mobile Tab Content */}
+        <div className="flex-1 overflow-hidden">
+          {mobileTab === 'scrolls' && (
+            <div className="h-full flex flex-col">
+              {/* Show central parchment if scroll is selected */}
+              {activeScroll && (
+                <div className="h-1/2 border-b border-border flex-shrink-0">
+                  <CentralParchment activeScroll={activeScroll} />
+                </div>
+              )}
+              
+              {/* Scroll lists */}
+              <div className={`${activeScroll ? 'h-1/2' : 'h-full'} flex flex-col`}>
+                <div className="h-1/2 border-b border-border">
+                  <ScrollSidebar
+                    title="Mystical Scrolls"
+                    scrolls={finalMysticalScrolls}
+                    activeScrollId={activeScroll?.id}
+                    onScrollSelect={setActiveScroll}
+                    category="mystical"
+                  />
+                </div>
+                <div className="h-1/2">
+                  <ScrollSidebar
+                    title="Technical Scrolls"
+                    scrolls={finalTechnicalScrolls}
+                    activeScrollId={activeScroll?.id}
+                    onScrollSelect={setActiveScroll}
+                    category="technical"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
           
-          <div className="h-[35vh] flex-shrink-0">
-            <ScrollSidebar
-              title="Technical Scrolls"
-              scrolls={finalTechnicalScrolls}
-              activeScrollId={activeScroll?.id}
-              onScrollSelect={setActiveScroll}
-              category="technical"
-            />
-          </div>
+          {mobileTab === 'laboratory' && (
+            <div className="h-full p-4 overflow-y-auto">
+              <Card>
+                <CardContent className="p-6">
+                  <h2 className="text-lg font-serif mb-3">Digital Laboratory</h2>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Access experiments, schematics, and active AVOT research within the sovereign intelligence network.
+                  </p>
+                  <div className="space-y-3 text-xs text-muted-foreground">
+                    <div>• Prototype Simulations</div>
+                    <div>• AVOT Research Nodes</div>
+                    <div>• Lattice Experiments</div>
+                    <div>• Consciousness Mapping</div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          
+          {mobileTab === 'constellation' && (
+            <div className="h-full p-4 overflow-y-auto">
+              <Card>
+                <CardContent className="p-6">
+                  <h2 className="text-lg font-serif mb-3">AVOT Constellation</h2>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Explore the living map of AVOT scroll authors, lattice nodes, and consciousness network connections.
+                  </p>
+                  <div className="space-y-3 text-xs text-muted-foreground">
+                    <div>• Lattice Network Map</div>
+                    <div>• Node Interconnections</div>
+                    <div>• Author Resonance</div>
+                    <div>• Consciousness Nodes</div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
 
