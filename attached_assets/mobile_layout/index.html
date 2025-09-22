@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tyme Hall</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Tyme Hall</h1>
+  </header>
+  <nav class="tab-bar">
+    <button onclick="showTab('scrolls')">Scrolls</button>
+    <button onclick="showTab('lab')">Laboratory</button>
+    <button onclick="showTab('stars')">Constellation</button>
+  </nav>
+  <main>
+    <section id="scrolls" class="tab-content active">
+      <h2>Scrolls</h2>
+      <p>View and interact with your Codex scrolls.</p>
+    </section>
+    <section id="lab" class="tab-content">
+      <h2>Laboratory</h2>
+      <p>Access experiments, schematics, and simulations.</p>
+    </section>
+    <section id="stars" class="tab-content">
+      <h2>Constellation</h2>
+      <p>Explore the AVOT lattice and project network.</p>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

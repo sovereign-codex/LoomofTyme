@@ -1,0 +1,35 @@
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+header {
+  background-color: #1a1a2e;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  background-color: #16213e;
+}
+.tab-bar button {
+  flex: 1;
+  padding: 1rem;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+}
+.tab-bar button:hover {
+  background-color: #0f3460;
+}
+.tab-content {
+  display: none;
+  padding: 1.5rem;
+}
+.tab-content.active {
+  display: block;
+}
