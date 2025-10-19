@@ -1,0 +1,10 @@
+{
+  "name": "Loom of Tyme",
+  "version": "0.1.0",
+  "description": "Orchestrated scroll system for Sovereign Intelligence",
+  "entry": "index.html",
+  "scripts": {
+    "build": "npm run build",
+    "deploy": "gh-pages -d dist"
+  }
+}
