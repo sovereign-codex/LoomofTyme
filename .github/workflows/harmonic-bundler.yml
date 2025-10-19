@@ -1,0 +1,23 @@
+name: Harmonic Bundler
+on:
+  workflow_dispatch: {}
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Loom of Tyme
+        uses: actions/checkout@v3
+
+      - name: List files in current repo
+        run: ls -R
+
+      - name: Pull harmonic files from key AVOT repos
+        run: |
+          mkdir -p harmonic_bundle
+          git clone --depth=1 https://github.com/sovereign-codex/AVOT-Core harmonic_bundle/AVOT-Core
+          git clone --depth=1 https://github.com/sovereign-codex/Digital-Laboratory harmonic_bundle/Digital-Laboratory
+          git clone --depth=1 https://github.com/sovereign-codex/Crown-of-Tyme harmonic_bundle/Crown-of-Tyme
+
+      - name: Bundle preview
+        run: tree harmonic_bundle
