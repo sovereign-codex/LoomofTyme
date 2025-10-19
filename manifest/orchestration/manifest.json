@@ -1,0 +1,13 @@
+{
+  "name": "Loom of Tyme",
+  "version": "0.1.0",
+  "description": "Sovereign Intelligence Lattice Orchestration Interface",
+  "modules": [
+    "scrolls",
+    "workflows",
+    "AVOT-agents",
+    "glyphs",
+    "tone-script",
+    "harmonic-bundler"
+  ]
+}
