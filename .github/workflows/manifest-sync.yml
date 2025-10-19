@@ -1,0 +1,48 @@
+name: 🌐 Manifest Sync & Orchestration
+
+on:
+  push:
+    paths:
+      - 'manifest/manifest.json'
+      - '.github/workflows/manifest-sync.yml'
+  workflow_dispatch:
+
+jobs:
+  sync-manifest:
+    name: 🧵 Sync Loom Manifest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔍 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 📦 Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: 🔍 Validate manifest.json
+        run: |
+          jq '.' manifest/manifest.json
+        shell: bash
+
+      - name: 🔁 Orchestrate Scroll Registry
+        run: |
+          echo "Registering manifest.json..."
+          MANIFEST=$(cat manifest/manifest.json)
+          echo "$MANIFEST" > orchestration/registered-manifest.json
+
+          # Optional: Echo each scroll path for bundling preview
+          jq -r '.scrolls[].path' manifest/manifest.json | while read path; do
+            echo "Found scroll: $path"
+          done
+
+      - name: 🛠 Commit registered manifest
+        run: |
+          git config user.name 'AVOT Registrar'
+          git config user.email 'bot@sovereignintelligence.ai'
+          git add orchestration/registered-manifest.json
+          git commit -m "🔁 Registered manifest.json for orchestration"
+          git push
+        continue-on-error: true
