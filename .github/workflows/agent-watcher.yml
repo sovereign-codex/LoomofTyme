@@ -1,0 +1,17 @@
+name: AVOT Lattice Watcher
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: '30 */6 * * *' # Every 6 hours
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Loom
+        uses: actions/checkout@v3
+
+      - name: Query AVOT repos
+        run: |
+          echo "Checking for new commits in AVOT repos..."
+          curl -s https://api.github.com/repos/sovereign-codex/AVOT-Core/commits | jq '.[0].commit.message'
